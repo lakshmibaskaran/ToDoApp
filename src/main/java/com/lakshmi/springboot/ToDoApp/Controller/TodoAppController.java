@@ -1,21 +1,21 @@
 package com.lakshmi.springboot.ToDoApp.Controller;
 
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
 public class TodoAppController
 {
-
-    @RequestMapping ("/TodoApp")
-    @ResponseBody
+    @RequestMapping("/TodoApp-jsp")
+    //@ResponseBody
     public String testController()
     {
-        System.out.println ("Testing Controller");
-        return "Testing Controller";
+        //Mention only the name of the JSP file. Spring MVC will append and prepend the folder path
+        //and file extension from application.properties
+        System.out.println("Into testController");
+        return "TodoHello";
     }
-
-
 }
