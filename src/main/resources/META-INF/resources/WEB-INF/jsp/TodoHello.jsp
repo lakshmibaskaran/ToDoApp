@@ -4,7 +4,7 @@
 </head>
 
 <body>
-    Welcome to Lakshmi Todo App
+    Welcome to Todo App
 </body>
 
 </html>
