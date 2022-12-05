@@ -2,6 +2,7 @@ package com.lakshmi.springboot.ToDoApp.Controller;
 
 
 import com.lakshmi.springboot.ToDoApp.Service.AuthenticationService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -9,15 +10,21 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
-public class LoginController
+@RequiredArgsConstructor
+@SessionAttributes("name")
+public class LoginUIController
 {
     private Logger logger = LoggerFactory.getLogger((getClass()));
-    AuthenticationService authenticationService = new AuthenticationService();
 
-    //Call this method when the request is initiated from login-jsp and the method is GET
-    //Deprecate this method when you figure this is no longer useful. Why use a GET on Login.jso??
+    //@RequiredArgsConstructor from lombok auto generates boiler plate code
+    //for single argument constructor
+    private final AuthenticationService authenticationService;
+
+    //Call this method when the request is initiated from login-jsp and the method is GET.
+    //This method will return the login page at the first instantiation.
     @RequestMapping(value="/login-jsp", method= RequestMethod.GET)
     public String goToLoginPage()
     {
@@ -25,7 +32,8 @@ public class LoginController
         return "Login";
     }
 
-    //Call this method when the request is initiated from login-jsp and the method is POST
+    //Call this method when the request is initiated after entering the username and password
+    // from login-jsp and the method is POST
     @RequestMapping(value="/login-jsp", method= RequestMethod.POST)
     public String goToWelcomePage(@RequestParam String userName, @RequestParam String password, ModelMap modelMap)
     {
