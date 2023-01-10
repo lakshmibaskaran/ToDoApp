@@ -122,7 +122,7 @@ public class TodoAppUIController
             return "Todo";
         }
 
-        
+
         String userName = (String) httpSession.getAttribute("name");
         String newDescription = toDo.getToDoDescription();
         LocalDate newDate = toDo.getToDoByDate();
