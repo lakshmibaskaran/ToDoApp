@@ -1,6 +1,9 @@
 package com.lakshmi.springboot.ToDoApp.Service;
 
 
+/*Deprecated AuthenticationService after introducing Spring Security in the project*/
+
+/*
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -29,3 +32,5 @@ public class AuthenticationService
         }
     }
 }
+*/
+
