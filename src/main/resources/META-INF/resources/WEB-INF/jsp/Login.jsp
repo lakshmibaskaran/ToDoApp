@@ -1,3 +1,5 @@
+<%--Deprecated Login.jsp after introducing Spring Security in the project
+
 <html>
 
 <head>
@@ -19,3 +21,5 @@
 </body>
 
 </html>
+
+--%>
