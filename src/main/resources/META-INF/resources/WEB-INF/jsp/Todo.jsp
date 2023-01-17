@@ -12,9 +12,22 @@
 
 <body>
 
+    <nav class="navbar navbar-expand-md navbar-light bg-light mb-3 p-1">
+        <a class="navbar-brand m-1" href="/" > Todo for kiddies </a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="/GetTodos">    </a></li>
+            </ul>
+        </div>
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+        </ul>
+    </nav>
+
     <div class="container">
+
         <center>
-        <b> To do </b>
+        <b> Adding a To do for ${name} </b>
         </center>
 
         <form:form method="post" modelAttribute="todo">
@@ -23,7 +36,7 @@
             <fieldset class="mb-3">
                 <%-- The form element in Springboot has a label attribute that makes label look nicer --%>
                 <form:label path="toDoDescription"> Description </form:label>
-                <form:input type="text" path="toDoDescription"/>
+                <form:input type="text" path="toDoDescription" required="required"/>
                 <form:errors path="toDoDescription" cssClass="text-warning"/>
             </fieldset>
 
@@ -34,8 +47,19 @@
                     <form:errors path="toDoByDate" cssClass="text-warning"/>
                 </fieldset>
 
+
+            <%-- Create a fieldset for Activity Finished --%>
+                <fieldset class="mb-3">
+                    <form:label path="toDoActivityFinished"> Task Completed </form:label>
+                    <form:checkbox path="toDoActivityFinished" value="toDoActivityFinished"/>
+                </fieldset>
+
             <form:input type="hidden" path="toDoId" />
+
+            <%--
             <form:input type="hidden" path="toDoActivityFinished"/>
+            --%>
+
             <br>
             <input type="submit" class="btn btn-success"/>
         </form:form>
