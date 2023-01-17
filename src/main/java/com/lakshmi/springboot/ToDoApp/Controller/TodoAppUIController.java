@@ -5,6 +5,8 @@ import com.lakshmi.springboot.ToDoApp.Service.ToDoService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -23,12 +25,23 @@ public class TodoAppUIController
     private Logger logger = LoggerFactory.getLogger((getClass()));
     private final ToDoService toDoService;
 
-    @RequestMapping("/GetTodos")
+
+    //Gets the logged in username using the Spring framework Security Context
+    private String getLoggedInUserName()
+    {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String loggedInUserName = authentication.getName();
+        return loggedInUserName;
+
+    }
+
+    @RequestMapping({"/","/GetTodos"})
     public String getTodosByUserId (HttpSession httpSession,ModelMap modelMap)
     {
         //Gets the list of Todos from the Service; adds it to the Model and sends it to the TodoList.jsp
-        //List listOfTodos = toDoService.getToDoList();
-        List listOfTodos = toDoService.getTodosByUserId((String)httpSession.getAttribute("name"));
+        //List listOfTodos = toDoService.getTodosByUserId((String)httpSession.getAttribute("name"));
+        List listOfTodos = toDoService.getTodosByUserId(getLoggedInUserName());
+        modelMap.addAttribute("name", getLoggedInUserName());
         modelMap.addAttribute("todo", listOfTodos);
         return "TodoList";
     }
@@ -46,6 +59,7 @@ public class TodoAppUIController
         serve Todo.jsp should be referred by the command bean by using the two statements below
          */
         ToDo toDo = new ToDo(0,(String) httpSession.getAttribute("name"),"", LocalDate.now(), false );
+        modelMap.put("name", getLoggedInUserName());
         modelMap.put("todo", toDo);
         return "Todo";
     }
@@ -58,6 +72,7 @@ public class TodoAppUIController
         logger.debug("In the POST controller method of add-todo");
         logger.debug("Username in session:" + httpSession.getAttribute("name"));
         logger.debug("Todo Description:" + toDo.getToDoDescription());
+        logger.debug("Todo Target date:" + toDo.getToDoByDate());
 
         //If there is a validation error from the bean, do not invoke addTodo. Stay in the current page.
 
@@ -66,15 +81,24 @@ public class TodoAppUIController
             logger.debug("There is a validation error, so return to Todo JSP page");
             String objectName = result.toString();
             System.out.println("ObjectName:" + objectName);
+            modelMap.put("name", getLoggedInUserName());
             modelMap.put("todo", new ToDo(0,(String) httpSession.getAttribute("name"),"", LocalDate.now(), false ));
             return "Todo";
         }
 
         //Call the addToDo method in toDoService Business calss to add the new To do.
-        List todoList = toDoService.addToDo((String) httpSession.getAttribute("name"), toDo.getToDoDescription(), toDo.getToDoByDate());
+        //List todoList = toDoService.addToDo((String) httpSession.getAttribute("name"), toDo.getToDoDescription(), toDo.getToDoByDate());
+
+        //List todoList = toDoService.addToDo(toDo);
+        toDo.setUserName((String)httpSession.getAttribute("name")); //Gets the username session attribute and sets it to Do object before passing it to toDoService
+        toDoService.addToDo(toDo);
+        logger.debug("After Todo is added");
+        return "redirect:GetTodos";
+
         //Put the new To do in the modelMap and direct it to JSP
-        modelMap.put("todo", todoList);
-        return "TodoList";
+        //modelMap.put("todo", todoList);
+        //Once a Todo is added, redirect to TodoList
+        //return "TodoList";
     }
 
 
@@ -98,8 +122,9 @@ public class TodoAppUIController
     public String showUpdateTodoPage (@RequestParam int id, ModelMap modelMap)
     {
         logger.debug("Into Todo Update");
-        logger.debug("ID against the deleted row:" + id);
+        logger.debug("ID against the updated row:" + id);
         ToDo toDo = toDoService.fetchToDoByID(id);
+        logger.debug("Status of task:" + toDo.isToDoActivityFinished());
         modelMap.put("todo", toDo);
         return "Todo";
     }
@@ -107,9 +132,12 @@ public class TodoAppUIController
     //The RequestMapping maps to the POST method of /update-to do. It is called when the user clicks on Submit after updating the description of a To Do
     @RequestMapping(value="/update-todo", method= RequestMethod.POST)
     public String updateTodo (HttpSession httpSession, ModelMap modelMap, @Valid ToDo toDo, BindingResult result)
+    //public String updateTodo (@RequestParam(value="toDoActivityFinished", required = false) boolean checkboxValue,HttpSession httpSession, ModelMap modelMap, @Valid ToDo toDo, BindingResult result)
     {
         logger.debug("In the POST controller method of update-todo");
         logger.debug("Todo Description:" + toDo.getToDoDescription());
+        logger.debug("Status of task:" + toDo.isToDoActivityFinished());
+        //logger.debug("Status of task from RequestParam:" + checkboxValue);
 
         //If there is a validation error from the bean, do not invoke addTodo. Stay in the current page.
 
@@ -118,7 +146,8 @@ public class TodoAppUIController
             logger.debug("There is a validation error, so return to Todo JSP page");
             String objectName = result.toString();
             System.out.println("ObjectName:" + objectName);
-            modelMap.put("todo", new ToDo(0,(String) httpSession.getAttribute("name"),toDo.getToDoDescription(), LocalDate.now(), false ));
+            //modelMap.put("todo", new ToDo(0,(String) httpSession.getAttribute("name"),toDo.getToDoDescription(), LocalDate.now(), false ));
+            modelMap.put("todo", new ToDo(0,(String) httpSession.getAttribute("name"),toDo.getToDoDescription(), toDo.getToDoByDate(), toDo.isToDoActivityFinished() ));
             return "Todo";
         }
 
@@ -126,10 +155,9 @@ public class TodoAppUIController
         String userName = (String) httpSession.getAttribute("name");
         String newDescription = toDo.getToDoDescription();
         LocalDate newDate = toDo.getToDoByDate();
-        int toDoId = toDo.getToDoId();
-        List todoList = toDoService.updateTodo(userName, toDoId, newDescription, newDate);
-        modelMap.put("todo", todoList);
-        return "TodoList";
+        toDo.setUserName((String)httpSession.getAttribute("name")); //Gets the username session attribute and sets it to Do object before passing it to toDoService
+        toDoService.updateTodo(toDo);
+        return "redirect:GetTodos";
     }
 
 
