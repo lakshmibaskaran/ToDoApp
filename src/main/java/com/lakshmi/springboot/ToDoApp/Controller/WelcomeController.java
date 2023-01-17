@@ -24,6 +24,7 @@ public class WelcomeController
     //for single argument constructor
     //private final AuthenticationService authenticationService;
 
+    /*
     //Call this method when the request is initiated when a user access the root of the application.
     //This method will return the welcome page at the first instantiation.
     @RequestMapping(value="/", method= RequestMethod.GET)
@@ -41,6 +42,8 @@ public class WelcomeController
         return loggedInUserName;
 
     }
+
+     */
 
  /*
 
