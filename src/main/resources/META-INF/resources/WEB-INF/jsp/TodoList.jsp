@@ -9,18 +9,32 @@
 
 <body>
 
+    <nav class="navbar navbar-expand-md navbar-light bg-light mb-3 p-1">
+        <a class="navbar-brand m-1" href="/" > Todo for kiddies </a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="/GetTodos">    </a></li>
+            </ul>
+        </div>
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+        </ul>
+    </nav>
+
     <div class="container">
         <center>
         <b> To do List for ${name}</b>
         </center>
 
+        <br>
+        <br>
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th> ID </th>
                     <th> Description </th>
                     <th> Target Date </th>
-                    <th> Finished </th>
+                    <th> Task Finished </th>
                     <th> </th>
                     <th> </th>
                 </tr>
