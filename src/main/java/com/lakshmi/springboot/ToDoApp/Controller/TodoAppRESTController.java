@@ -22,6 +22,7 @@ public class TodoAppRESTController
     //Annotation @RequiredArgsConstructor creates the boilerplate to define the constructor for TodoAppRESTController with ToDoService as the parameter
     private final ToDoService toDoService;
 
+    /*
     @RequestMapping ("api/GetTodos")
     public List getTodos()
     {
@@ -31,5 +32,5 @@ public class TodoAppRESTController
 
         List listofToDos = toDoService.getToDoList();
         return listofToDos;
-    }
+    */
 }
