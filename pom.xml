@@ -11,7 +11,7 @@
 	<groupId>com.lakshmi.springboot</groupId>
 	<artifactId>ToDoApp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>ToDoApp</name>
 
 	<description>To Do Web App</description>
@@ -145,13 +145,29 @@
 		<!-- Open source Project lombok that replaces boiler plate code by Annotations-->
 
 
+
 	</dependencies>
+
+
+	<!-- Dependencies for Springboot application build -->
+
 
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>com.lakshmi.springboot.ToDoApp.ToDoAppApplication</mainClass>
+					<layout>JAR</layout>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 
 			<plugin>
@@ -166,18 +182,19 @@
 							<filtering>true</filtering>
 						</resource>
 					</webResources>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<mainClass>com.lakshmi.springboot.ToDoApp.ToDoAppApplication</mainClass>
+						</manifest>
+					</archive>
 				</configuration>
 			</plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>18</source>
-                    <target>18</target>
-                </configuration>
-            </plugin>
+
+
 
         </plugins>
 	</build>
 
+	<!-- Dependencies for Springboot application build -->
 </project>
