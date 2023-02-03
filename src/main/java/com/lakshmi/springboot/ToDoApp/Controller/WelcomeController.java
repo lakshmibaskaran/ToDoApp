@@ -55,7 +55,7 @@ public class WelcomeController
         logger.debug("Into goToWelcome controller method");
         boolean authenticated = authenticationService.authenticateUser(userName,password);
 
-        //If the login is successful, the page navigates to Welcome.jsp
+        //If the login is successful, the page navigates to Welcome-dup.jsp
         if (authenticated) {
             logger.debug("Authentication successful");
             modelMap.put("name", userName);
