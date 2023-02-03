@@ -38,11 +38,15 @@ public class TodoAppUIController
     @RequestMapping({"/","/GetTodos"})
     public String getTodosByUserId (HttpSession httpSession,ModelMap modelMap)
     {
-        //Gets the list of Todos from the Service; adds it to the Model and sends it to the TodoList.jsp
+        //Gets the list of Todos from the Service; adds it to the Model and sends it to the TodoList-dup.jsp
         //List listOfTodos = toDoService.getTodosByUserId((String)httpSession.getAttribute("name"));
+        logger.debug("Into controller's getTosByUserId");
         List listOfTodos = toDoService.getTodosByUserId(getLoggedInUserName());
+        logger.debug("After getting todos from toDoService");
+        logger.debug("Number of todos:" + listOfTodos.size());
         modelMap.addAttribute("name", getLoggedInUserName());
         modelMap.addAttribute("todo", listOfTodos);
+        logger.debug("Before returning to TodoList.jsp");
         return "TodoList";
     }
 
@@ -56,7 +60,7 @@ public class TodoAppUIController
         logger.debug("In the GET controller method of add-todo");
 
         /*Since ToDo.jsp is associated to the command Bean ToDo, all methods that
-        serve Todo.jsp should be referred by the command bean by using the two statements below
+        serve Todo-dup.jsp should be referred by the command bean by using the two statements below
          */
         ToDo toDo = new ToDo(0,(String) httpSession.getAttribute("name"),"", LocalDate.now(), false );
         modelMap.put("name", getLoggedInUserName());
