@@ -1,4 +1,6 @@
 version: '2'
+volumes:
+  my-db:
 
 services:
   app:
@@ -11,7 +13,7 @@ services:
     depends_on:
       - db
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/todos
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/todos?autoReconnect=true
       - SPRING_DATASOURCE_USERNAME=todouser
       - SPRING_DATASOURCE_PASSWORD=dummytodos
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
@@ -28,4 +30,6 @@ services:
       MYSQL_USER: todouser
       MYSQL_PASSWORD: dummytodos
       MYSQL_ROOT_PASSWORD: todopassword
+    volumes:
+      - my-db:/var/lib/mysql
 
