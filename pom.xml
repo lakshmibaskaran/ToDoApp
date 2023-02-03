@@ -11,7 +11,7 @@
 	<groupId>com.lakshmi.springboot</groupId>
 	<artifactId>ToDoApp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 	<name>ToDoApp</name>
 
 	<description>To Do Web App</description>
@@ -93,10 +93,17 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<!--<scope>provided</scope> -->
+			<scope>provided</scope>
 		</dependency>
 
 		<!--TomcatEmbed-->
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
+			<scope>provided</scope>
+		</dependency>
 
 		<!-- JSTL for parsing JSP pages-->
 		<dependency>
@@ -159,7 +166,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<mainClass>com.lakshmi.springboot.ToDoApp.ToDoAppApplication</mainClass>
-					<layout>JAR</layout>
+					<layout>WAR</layout>
 				</configuration>
 				<executions>
 					<execution>
@@ -178,7 +185,7 @@
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 					<webResources>
 						<resource>
-							<directory>src/main/resources/META-INF/resources/WEB-INF/jsp</directory>
+							<directory>src/main/webapp/WEB-INF/jsp</directory>
 							<filtering>true</filtering>
 						</resource>
 					</webResources>
