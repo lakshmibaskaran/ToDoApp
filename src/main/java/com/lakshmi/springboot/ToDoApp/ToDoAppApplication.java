@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-
+/*
 @SpringBootApplication
 
 public class ToDoAppApplication
@@ -15,7 +15,7 @@ public class ToDoAppApplication
 		SpringApplication.run(ToDoAppApplication.class, args);
 	}
 }
-
+*/
 
 
 /*
@@ -35,19 +35,21 @@ public class MyApplication extends SpringBootServletInitializer {
 
 */
 
-/*
+
 @SpringBootApplication
-//@SpringBootApplication(scanBasePackages = "com.lakshmi.springboot.ToDoApp")
-public class ToDoAppApplication extends SpringBootServletInitializer {
+public class ToDoAppApplication extends SpringBootServletInitializer
+{
 
 	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-		return application.sources(ToDoAppApplication.class);
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder)
+	{
+		return builder.sources(ToDoAppApplication.class);
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 		SpringApplication.run(ToDoAppApplication.class);
 	}
 }
-*/
+
 
